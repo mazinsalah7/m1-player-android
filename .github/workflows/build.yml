@@ -8,20 +8,20 @@ jobs:
       - name: Unzip project
         run: |
           unzip -o m1-player-android.zip
-          if [ -d "m1-player-android" ]; then
-            mv m1-player-android/*.
-            mv m1-player-android/.*. 2>/dev/null || true
-          fi
           ls -la
+          if [ -d "m1-player-android" ]; then
+            cp -r m1-player-android/*.
+            cp -r m1-player-android/.gradle. 2>/dev/null || true
+          fi
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Grant execute permission
+        run: chmod +x gradlew
       - name: Build APK
-        run: |
-          chmod +x gradlew
-         ./gradlew assembleDebug
+        run:./gradlew assembleDebug
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
